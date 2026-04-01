@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import os
 from datetime import datetime
 from data_models import db, Author, Book
-import requests
+
 
 
 app = Flask(__name__)
@@ -31,7 +31,6 @@ def home():
     message = None
     if search and not books:
         message = "No Books found!"
-
     return render_template('home.html', books=books, message=message)
 
 @app.route('/add_author', methods=['GET', 'POST'])
@@ -41,7 +40,8 @@ def add_author():
         birth_date = request.form.get('birthdate')
         date_birth_obj = datetime.strptime(birth_date, "%Y-%m-%d").date()
         date_of_death = request.form.get('date_of_death')
-        date_death_obj = datetime.strptime(date_of_death, "%Y-%m-%d").date()
+        date_death_obj = (datetime.strptime(date_of_death, "%Y-%m-%d").date()
+        if date_of_death else None)
         new_author = Author(name = name,
                birth_date = date_birth_obj,
                date_of_death = date_death_obj)
@@ -67,7 +67,7 @@ def add_book():
         db.session.add(new_book)
         db.session.commit()
         print(f"Book:{title} successfully created")
-        redirect(url_for('home'))
+        return redirect(url_for('home'))
     authors = Author.query.all()
     return render_template('add_book.html', authors=authors)
 
