@@ -4,11 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
   <body>
+      <form action="/add_book" method="POST">
+       <label for="title">Book Name:</label>
+      <input type="text" id="title" name="title" required><br><br>
 
-  <form action="/add_author" method="POST">
-  <!-- Add the form here -->
+      <label for="isbn">ISBN:</label>
+      <input type="text" id="isbn" name="isbn" required><br><br>
+      <label for="publication_year">Publication Year:</label>
+      <input type="number" id="publication_year" name="publication_year" ><br><br>
+      <input type="submit" value="Add Book">
   </form>
 
   </body>

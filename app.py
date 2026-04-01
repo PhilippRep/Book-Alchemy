@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, url_for
 import os
+from datetime import datetime
 from data_models import db, Author, Book
+
 
 app = Flask(__name__)
 
@@ -19,17 +21,37 @@ def home():
 def add_author():
     if request.method== 'POST':
         name = request.form.get('name')
-        birthdate = request.form.get('birthdate')
+        birth_date = request.form.get('birthdate')
+        date_birth_obj = datetime.strptime(birth_date, "%Y-%m-%d").date()
         date_of_death = request.form.get('date_of_death')
+        date_death_obj = datetime.strptime(date_of_death, "%Y-%m-%d").date()
         new_author = Author(name = name,
-               birth_of_date = birthdate,
-               date_of_death = date_of_death)
+               birth_date = date_birth_obj,
+               date_of_death = date_death_obj)
         db.session.add(new_author)
         db.session.commit()
         print(f"Author:{name} successfully created")
         return redirect(url_for('home'))
 
     return render_template('add_author.html')
+
+@app.route('/add_book', methods=['GET', 'POST'])
+def add_book():
+    if request.method== 'POST':
+        isbn = request.form.get('isbn')
+        title = request.form.get('title')
+        publication_year = request.form.get('publication_year')
+        new_book = Book(title = title,
+               isbn = isbn,
+               publication_year = int(publication_year)
+        )
+        db.session.add(new_book)
+        db.session.commit()
+        books = Book.query.all()
+        print(f"Book:{title} successfully created")
+        return render_template('home.html', books=books)
+
+    return render_template('add_book.html')
 
 
 if __name__ == "__main__":
