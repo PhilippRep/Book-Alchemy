@@ -1,25 +1,25 @@
-/* Grundlayout */
-body {
-  font-family: Arial, sans-serif;
-  background: linear-gradient(135deg, #e3f2fd, #fce4ec);
+/* =========================
+   FORMULAR-SEITE
+========================= */
+.form-page {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #e3f2fd, #fce4ec);
 }
 
-/* Formular-Container */
-form {
+/* Formular-Box (wieder schön!) */
+.form-page form {
   background: #ffffff;
   padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 14px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   width: 320px;
 }
 
 /* Labels */
-label {
+.form-page label {
   display: block;
   margin-bottom: 6px;
   font-weight: bold;
@@ -27,43 +27,69 @@ label {
 }
 
 /* Inputs */
-input[type="text"],
-input[type="date"] {
+.form-page input[type="text"],
+.form-page input[type="date"],
+.form-page input[type="number"] {
   width: 100%;
   padding: 10px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
-  border-radius: 6px;
+  border-radius: 8px;
   transition: 0.3s;
-  font-size: 14px;
 }
 
-/* Fokus-Effekt */
-input:focus {
+/* Fokus */
+.form-page input:focus {
   border-color: #7e57c2;
-  outline: none;
   box-shadow: 0 0 5px rgba(126, 87, 194, 0.4);
+  outline: none;
 }
 
 /* Button */
-input[type="submit"] {
-  width: 100px;
+.form-page input[type="submit"] {
+  width: 100%;
   padding: 12px;
   background: #7e57c2;
-  border: none;
   color: white;
+  border: none;
+  border-radius: 8px;
   font-size: 16px;
-  border-radius: 6px;
   cursor: pointer;
-  transition: 0.3s;
 }
 
 /* Button Hover */
-input[type="submit"]:hover {
+.form-page input[type="submit"]:hover {
   background: #5e35b1;
 }
 
-/* Optional: Abstand zwischen Feldern */
-br {
-  display: none;
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.home-page {
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #e3f2fd, #fce4ec);
+  margin: 0;
+  padding: 20px;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.book-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+
+.book-card:hover {
+  transform: translateY(-5px);
 }

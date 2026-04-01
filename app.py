@@ -1,3 +1,5 @@
+from urllib.error import URLError
+
 from flask import Flask, render_template, request, redirect, url_for
 import os
 from datetime import datetime
@@ -15,7 +17,9 @@ with app.app_context():
 
 @app.route('/')
 def home():
-    return render_template('home.html'), 200
+    books = Book.query.all()
+    authors = Author.query.all()
+    return render_template('home.html', books=books, authors=authors), 200
 
 @app.route('/add_author', methods=['GET', 'POST'])
 def add_author():
@@ -41,17 +45,18 @@ def add_book():
         isbn = request.form.get('isbn')
         title = request.form.get('title')
         publication_year = request.form.get('publication_year')
+        author_id = int(request.form.get('author_id'))
         new_book = Book(title = title,
                isbn = isbn,
-               publication_year = int(publication_year)
+               publication_year = int(publication_year),
+               author_id = author_id
         )
         db.session.add(new_book)
         db.session.commit()
-        books = Book.query.all()
         print(f"Book:{title} successfully created")
-        return render_template('home.html', books=books)
-
-    return render_template('add_book.html')
+        redirect(url_for('home'))
+    authors = Author.query.all()
+    return render_template('add_book.html', authors=authors)
 
 
 if __name__ == "__main__":

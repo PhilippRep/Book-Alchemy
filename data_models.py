@@ -22,6 +22,7 @@ class Book(db.Model):
     title = db.Column(db.String(255), nullable=False)
     author_id = db.Column(db.Integer, db.ForeignKey('authors.id'), nullable= False)
     publication_year = db.Column(db.Integer, nullable=False)
+    author = db.relationship('Author', backref='books')
 
 
     def __repr__(self):
