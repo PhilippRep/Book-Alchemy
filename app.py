@@ -1,10 +1,7 @@
-from urllib.error import URLError
-
 from flask import Flask, render_template, request, redirect, url_for
 import os
 from datetime import datetime
 from data_models import db, Author, Book
-
 
 app = Flask(__name__)
 
@@ -58,6 +55,14 @@ def add_book():
     authors = Author.query.all()
     return render_template('add_book.html', authors=authors)
 
+@app.route('/book/<int:book_id>/delete', methods=['POST'])
+def delete_book(book_id):
+    book = Book.query.get_or_404(book_id)
+    db.session.delete(book)
+    db.session.commit()
+
+    print(f"Book: {book.title} is deleted")
+    return redirect(url_for('home'))
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

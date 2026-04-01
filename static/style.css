@@ -93,3 +93,8 @@ body {
 .book-card:hover {
   transform: translateY(-5px);
 }
+
+.page-container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
