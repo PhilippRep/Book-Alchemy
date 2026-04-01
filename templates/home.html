@@ -7,8 +7,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   </head>
   <body class="home-page">
+    <form method="get" action="{{ url_for('home') }}">
+        <input type="text" name="search" placeholder="Buch suchen...">
+        <button type="submit">Suchen</button>
+    </form>
     <div class="page-container">
     <h1> Book Alchemy </h1>
+        {% if message %}
+        <p>{{ message }}</p>
+        {% endif %}
     <div class="book-grid">
     {% for book in books %}
         <div class="book-card">
@@ -20,6 +27,14 @@
         </div>
     {% endfor %}
     </div>
+        <form method="get" action="{{ url_for('home') }}">
+        <label>Sortieren nach:</label>
+        <select name="sort_by">
+            <option value="title">Titel</option>
+            <option value="author">Autor</option>
+        </select>
+        <button type="submit">Sortieren</button>
+    </form>
     </div>
   </body>
 </html>

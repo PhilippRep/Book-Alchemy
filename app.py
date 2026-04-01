@@ -1,7 +1,9 @@
+
 from flask import Flask, render_template, request, redirect, url_for
 import os
 from datetime import datetime
 from data_models import db, Author, Book
+
 
 app = Flask(__name__)
 
@@ -12,11 +14,25 @@ db.init_app(app)
 with app.app_context():
   db.create_all()
 
+
 @app.route('/')
 def home():
-    books = Book.query.all()
-    authors = Author.query.all()
-    return render_template('home.html', books=books, authors=authors), 200
+    search = request.args.get('search')
+    sort_by = request.args.get('sort_by')
+    query = Book.query
+    if search:
+        query = query.filter(Book.title.ilike(f"%{search}%"))
+    if sort_by == 'author':
+        query = query.join(Author).order_by(Author.name)
+    else:
+        query = query.order_by(Book.title)
+    books = query.all()
+    message = None
+    if search and not books:
+        message = "No Books found!"
+    api_url = "https://openlibrary.org/api/books?bibkeys=ISBN:9780451526538&format=json&jscmd=data"
+
+    return render_template('home.html', books=books, message=message)
 
 @app.route('/add_author', methods=['GET', 'POST'])
 def add_author():
