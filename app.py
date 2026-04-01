@@ -3,6 +3,7 @@ from flask import Flask, render_template, request, redirect, url_for
 import os
 from datetime import datetime
 from data_models import db, Author, Book
+import requests
 
 
 app = Flask(__name__)
@@ -30,7 +31,6 @@ def home():
     message = None
     if search and not books:
         message = "No Books found!"
-    api_url = "https://openlibrary.org/api/books?bibkeys=ISBN:9780451526538&format=json&jscmd=data"
 
     return render_template('home.html', books=books, message=message)
 
